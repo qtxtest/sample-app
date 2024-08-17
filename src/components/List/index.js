@@ -1,33 +1,37 @@
-import React, { useState } from 'react';
-import faker from 'faker';
-import List from './List';
-import ListButton from './ListButton';
+import React, { useEffect } from "react";
+import faker from "faker";
+import ListButton from "./ListButton";
+import ListItem from "./ListItem";
+import useUserStore from "../../store/useUserStore";
+import "./styles.css";
 
 // don't change this !!!
-const initList = [];
+const list = [];
 let times = 5;
 while (times-- > 0) {
-  initList.push({
+  list.push({
     id: faker.random.uuid(),
     title: faker.name.findName(),
   });
 }
 
 const App = () => {
-  const [list, setList] = useState([]);
+  const { users, addAllUsers, addUser, removeUser } = useUserStore();
 
-  const handleRemove = (index) => {
-    setList(list.filter((item, i) => i !== index));
-  };
+  useEffect(() => {
+    addAllUsers(list);
+  }, [addAllUsers]);
 
-  const handleAdd = (newItem) => {
-    setList(list.concat([newItem]));
-  };
+  const renderListItem = (item) => (
+    <ListItem key={item.id} item={item} onClick={() => removeUser(item.id)} />
+  )
 
   return (
-    <div className='App'>
-      <List items={list} onRemove={handleRemove} />
-      <ListButton onClick={handleAdd} />
+    <div className="App">
+      <div className="list">
+        {users.map(renderListItem)}
+        <ListButton onClick={addUser} />
+      </div>
     </div>
   );
 };
