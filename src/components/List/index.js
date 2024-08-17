@@ -3,7 +3,7 @@ import faker from "faker";
 import ListButton from "./ListButton";
 import ListItem from "./ListItem";
 import useUserStore from "../../store/useUserStore";
-// import "./styles.css";
+import "./styles.css";
 
 // don't change this !!!
 const list = [];
